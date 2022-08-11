@@ -1,0 +1,21 @@
+.pokemonCard {
+
+    border-radius: 100px !important;
+
+    h3, p {
+        text-align: center;
+    }
+
+    img {
+         object-fit: contain;
+    }
+
+    &-favourite {
+        color: #333;
+        cursor: pointer;
+        width: 1.5em !important;
+        height: 1.5em !important;
+        margin-top: 10px;
+    }
+   
+}

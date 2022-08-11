@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import './SinglePokemon.scss';
+import TypePill from "./PokemonTypePill";
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 export default function SinglePokemon(props) {
 
@@ -20,12 +23,15 @@ export default function SinglePokemon(props) {
       }
 
     getData();
-  }, [pokemonData.name]);
+  }, [props.pokemon.url]);
 
-  console.log(pokeTypes)
+  // function saveToFavourite() {
+
+  // }
  
   return (
-    <Card sx={{ maxWidth: 275 }}>
+    <Card className="pokemonCard" sx={{ maxWidth: 275 }}>
+      <StarBorderIcon className="pokemonCard-favourite"/>
       <CardMedia
           component="img"
           height="194"
@@ -33,13 +39,14 @@ export default function SinglePokemon(props) {
           alt={pokemonData.name}
       />
       <CardContent>
-          <Typography gutterBottom variant="h2" component="div">
+          <Typography gutterBottom variant="h4" component="h4">
               {pokemonData.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-              {pokeTypes[0] ? pokeTypes[0].type.name : ''}
-              {pokeTypes[1] ? pokeTypes[1].type.name : ''}
-          </Typography>
+          <div className="pokemon-card__types">
+            {pokeTypes.map(type => (
+              <TypePill compact pokemonType={type.type.name} key={type.type.name} />
+            ))}
+          </div>
       </CardContent>
     </Card>
   );
