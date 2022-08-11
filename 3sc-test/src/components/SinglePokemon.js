@@ -7,12 +7,15 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarFullIcon from '@mui/icons-material/Star';
 
 export default function SinglePokemon(props) {
 
   const [pokemonData, setPokemonData] = useState({});
   const [pokeImg, setPokeImg] = useState("");
   const [pokeTypes, setPokeTypes] = useState([]);
+  const [addToFavourite, setAddToFavourite] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -25,13 +28,27 @@ export default function SinglePokemon(props) {
     getData();
   }, [props.pokemon.url]);
 
-  // function saveToFavourite() {
+  function saveToFavourite() {
+    if (localStorage.getItem(pokemonData.name) !== pokemonData.name) {
+        localStorage.setItem(pokemonData.name, pokemonData.name);
+        setAddToFavourite(true);
+    } else {
+      localStorage.removeItem(pokemonData.name);
+      setAddToFavourite(false);
+    }
+  }
 
-  // }
+  function showFavouriteIcon() {
+    if (localStorage.getItem(pokemonData.name) === pokemonData.name) {
+      return <StarFullIcon onClick={ saveToFavourite } className="pokemonCard-favourite-full"/>
+    } else {
+      return <StarBorderIcon onClick={ saveToFavourite } className="pokemonCard-favourite"/>
+    }
+  }
  
   return (
     <Card className="pokemonCard" sx={{ maxWidth: 275 }}>
-      <StarBorderIcon className="pokemonCard-favourite"/>
+      {showFavouriteIcon()}
       <CardMedia
           component="img"
           height="194"
